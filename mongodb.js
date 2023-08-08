@@ -12,12 +12,13 @@ MongoClient.connect(
     }
     const db = client.db(databaseName);
     //updating
-    const updatePromise = db.collection("tasks").updateMany({
-      completed:false
-    }
-,      {
+    const updatePromise = db.collection("tasks").updateMany(
+      {
+        completed: false,
+      },
+      {
         $set: {
-        completed:true
+          completed: true,
         },
       }
     );
@@ -28,57 +29,67 @@ MongoClient.connect(
       .catch((err) => {
         console.log(err);
       });
-    // db.collection("users").insertOne(
-    //   {
-    //     name: "Niraj",
-    //     age: 32,
-    //   },
-    //   (error, result) => {
-    //     if (error) {
-    //       return console.log("Unable to insert user");
-    //     }
-    //     console.log(result.ops);
-    //   }
-    // );
-    // db.collection("task").insertMany(
-    //   {
-    //     task: "clean the house",
-    //     completed: true,
-    //   },
-    //   {
-    //     task: "running",
-    //     completed: true,
-    //   },
-    //   {
-    //     task: "cooking",
-    //     completed: false,
-    //   },
-    //   (error, result) => {
-    //     if (error) {
-    //       return console.log("not inserted");
-    //     }
-    //     console.log(result.ops);
-    //   }
-    // );
+    db.collection("users").insertOne(
+      {
+        name: "Niraj",
+        age: 32,
+      },
+      (error, result) => {
+        if (error) {
+          return console.log("Unable to insert user");
+        }
+        console.log(result.ops);
+      }
+    );
+    db.collection("task").insertMany(
+      {
+        task: "clean the house",
+        completed: true,
+      },
+      {
+        task: "running",
+        completed: true,
+      },
+      {
+        task: "cooking",
+        completed: false,
+      },
+      (error, result) => {
+        if (error) {
+          return console.log("not inserted");
+        }
+        console.log(result.ops);
+      }
+    );
 
-    // db.collection('users').findOne({ _id: new ObjectID("5c1113239cbfe605241f9071") }, (error, user) => {
-    //     if (error) {
-    //         return console.log('Unable to fetch')
-    //     }
+    db.collection("users").findOne(
+      { _id: new ObjectID("5c1113239cbfe605241f9071") },
+      (error, user) => {
+        if (error) {
+          return console.log("Unable to fetch");
+        }
 
-    //     console.log(user)
-    // })
+        console.log(user);
+      }
+    );
 
-    // db.collection('users').find({ age: 27 }).toArray((error, users) => {
-    //     console.log(users)
-    // })
+    db.collection("users")
+      .find({ age: 27 })
+      .toArray((error, users) => {
+        console.log(users);
+      });
 
-    // db.collection('tasks').findOne({ _id: new ObjectID("5c0fec243ef6bdfbe1d62e2f") }, (error, task) => {
-    //     console.log(task)
-    // })
+    db.collection("tasks").findOne(
+      { _id: new ObjectID("5c0fec243ef6bdfbe1d62e2f") },
+      (error, task) => {
+        console.log(task);
+      }
+    );
 
-    // db.collection('tasks').find({ completed: false }).toArray((error, tasks) => {
-    //     console.log(tasks)
-    // })
+    db.collection("tasks")
+      .find({ completed: false })
+      .toArray((error, tasks) => {
+        console.log(tasks);
+      });
   }
 );
