@@ -5,7 +5,6 @@ const app = express();
 dotenv.config();
 app.use(express.json());
 
-//mongoose connect
 mongoose
   .connect(process.env.MONGODB_URL, {
     useNewUrlParser: true,
