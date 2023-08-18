@@ -8,7 +8,7 @@ const adminSchema = new mongoose.Schema({
     trim: true,
     unique: true,
   },
-  admin_password: {
+  password: {
     type: String,
     required: true,
     minlength: 7,
