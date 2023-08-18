@@ -1,19 +1,16 @@
 const mongoose = require("mongoose");
-const ObjectID = require("mongodb");
 const validator = require("validator");
+const Car = require("./cars");
+const Deal = require("./deal");
 const SoldVehicle = require("./soldvehicles");
 
-const userSchema = new mongoose.Schema(
+const dealershipSchema = new mongoose.Schema(
   {
-    user_id: {
-      _id: new ObjectID(),
+    dealership_id: {
+      _id: new ObjectId(),
     },
-    user_name: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    user_email: {
+
+    dealership_email: {
       type: String,
       required: true,
       unique: true,
@@ -25,7 +22,15 @@ const userSchema = new mongoose.Schema(
         }
       },
     },
-    user_password: {
+    dealership_name: {
+      required: true,
+      type: String,
+    },
+    dealership_location: {
+      type: String,
+      required: true,
+    },
+    dealership_password: {
       type: String,
       required: true,
       minlength: 7,
@@ -36,16 +41,23 @@ const userSchema = new mongoose.Schema(
         }
       },
     },
-    user_location: {
-      type: String,
-      trim: true,
-      required: true,
-    },
-    user_info: {
+    dealership_info: {
       type: mongoose.Schema.Types.Mixed,
       default: {},
     },
-    vehicle_info: [
+    cars: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Car",
+      },
+    ],
+    deals: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Deal",
+      },
+    ],
+    sold_vehicles: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "SoldVehicle",
@@ -57,5 +69,6 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-const User = mongoose.model("User", userSchema);
-module.exports = User;
+const Dealership = mongoose.model("Dealership", dealershipSchema);
+
+module.exports = Dealership;
