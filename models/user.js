@@ -1,13 +1,9 @@
 const mongoose = require("mongoose");
-const ObjectID = require("mongodb");
 const validator = require("validator");
 const SoldVehicle = require("./soldvehicles");
 
 const userSchema = new mongoose.Schema(
   {
-    user_id: {
-      _id: new ObjectID(),
-    },
     user_name: {
       type: String,
       required: true,
@@ -31,8 +27,8 @@ const userSchema = new mongoose.Schema(
       minlength: 7,
       trim: true,
       validate(value) {
-        if (value.toLowerCase().include("password")) {
-          throw new Error("Password cannot contain password");
+        if (value.toLowerCase().includes("password")) {
+          throw new Error('Password cannot contain "password');
         }
       },
     },
