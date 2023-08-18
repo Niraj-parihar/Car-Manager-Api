@@ -3,7 +3,6 @@ const ObjectID = require("mongodb");
 const validator = require("validator");
 require("./soldvehicles");
 
-//creating a mongoose model
 const userSchema = new mongoose.Schema(
   {
     user_id: {
@@ -62,8 +61,6 @@ const userSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-
-//   vehicle_info list_of_id
 
 const User = mongoose.model("User", userSchema);
 module.exports = User;
