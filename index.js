@@ -16,5 +16,5 @@ mongoose
   });
 
 app.listen(3000, () => {
-  console.log("Server is up and running");
+  console.log("Server is up and running on post : ", 3000);
 });
