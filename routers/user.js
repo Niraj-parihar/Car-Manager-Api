@@ -13,4 +13,17 @@ router.post("/register", async (req, res) => {
   }
 });
 
+//users login
+router.post("/login", async (req, res) => {
+  try {
+    const user = await User.findByCredentials(
+      req.body.user_email,
+      req.body.user_password
+    );
+    res.send(user);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
 module.exports = router;
