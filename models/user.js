@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 const SoldVehicle = require("./soldvehicles");
+const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema(
   {
@@ -53,5 +54,30 @@ const userSchema = new mongoose.Schema(
   }
 );
 
+userSchema.statics.findByCredentials = async (user_email, user_password) => {
+  const user = await User.findOne({ user_email });
+
+  if (!user) {
+    throw new Error("Unable to login");
+  }
+  const isMatch = await bcrypt.compare(user_password, user.user_password);
+
+  if (!isMatch) {
+    throw new Error("Unable to login");
+  }
+
+  return user;
+};
+
+// Hash the plain text password before saving
+userSchema.pre("save", async function (next) {
+  const user = this;
+
+  if (user.isModified("user_password")) {
+    user.user_password= await bcrypt.hash(user.user_password, 8);
+  }
+
+  next();
+});
 const User = mongoose.model("User", userSchema);
 module.exports = User;
