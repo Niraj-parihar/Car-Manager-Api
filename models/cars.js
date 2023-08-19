@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-require("./soldvehicles");
+const SoldVehicle = require("./soldvehicles");
 
 const carSchema = new mongoose.Schema({
   car_type: {
@@ -22,7 +22,6 @@ const carSchema = new mongoose.Schema({
     note: "store additional fields",
   },
 });
-
 
 const Car = mongoose.model("Car", carSchema);
 module.exports = Car;

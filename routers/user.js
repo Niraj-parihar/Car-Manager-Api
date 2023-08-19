@@ -9,7 +9,7 @@ router.post("/register", async (req, res) => {
     await user.save();
     res.status(201).send(user);
   } catch (e) {
-    res.status(400).send(e);
+    res.status(500).send(e);
   }
 });
 
