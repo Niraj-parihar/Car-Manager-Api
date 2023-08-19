@@ -54,6 +54,16 @@ const userSchema = new mongoose.Schema(
   }
 );
 
+//hiding unwanted data using toJSON method
+userSchema.methods.toJSON = function () {
+  const user = this;
+  const userObject = user.toObject();
+
+  delete userObject.user_password;
+
+  return userObject;
+};
+
 userSchema.statics.findByCredentials = async (user_email, user_password) => {
   const user = await User.findOne({ user_email });
 
@@ -74,7 +84,7 @@ userSchema.pre("save", async function (next) {
   const user = this;
 
   if (user.isModified("user_password")) {
-    user.user_password= await bcrypt.hash(user.user_password, 8);
+    user.user_password = await bcrypt.hash(user.user_password, 8);
   }
 
   next();
