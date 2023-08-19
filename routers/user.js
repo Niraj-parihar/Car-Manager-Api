@@ -2,7 +2,7 @@ const express = require("express");
 const User = require("../models/user.js");
 const router = new express.Router();
 
-//post is for the creation of collection
+//user register route
 router.post("/register", async (req, res) => {
   const user = new User(req.body);
   try {
@@ -13,7 +13,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-//users login
+//users login route
 router.post("/login", async (req, res) => {
   try {
     const user = await User.findByCredentials(
