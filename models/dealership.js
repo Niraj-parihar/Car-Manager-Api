@@ -6,10 +6,6 @@ const SoldVehicle = require("./soldvehicles");
 
 const dealershipSchema = new mongoose.Schema(
   {
-    dealership_id: {
-      _id: new ObjectId(),
-    },
-
     dealership_email: {
       type: String,
       required: true,
@@ -36,7 +32,7 @@ const dealershipSchema = new mongoose.Schema(
       minlength: 7,
       trim: true,
       validate(value) {
-        if (value.toLowerCase().include("password")) {
+        if (value.toLowerCase().includes("password")) {
           throw new Error("Password cannot contain password");
         }
       },
