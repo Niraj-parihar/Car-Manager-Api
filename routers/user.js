@@ -19,7 +19,21 @@ router.get("/", async (req, res) => {
     const users = await User.find();
     res.status(200).send(users);
   } catch (error) {
-    res.status(500).json({ message: "Internal server error: ", error});
+    res.status(500).json({ message: "Internal server error: ", error });
+  }
+});
+
+//user reading
+router.get("/:id", async (req, res) => {
+  const _id = req.params.id;
+  try {
+    const user = await User.findById(_id);
+    if (!user) {
+      return res.status(404).send("User not Found");
+    }
+    res.send(user);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error: ", error });
   }
 });
 
