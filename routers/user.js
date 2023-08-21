@@ -13,6 +13,16 @@ router.post("/register", async (req, res) => {
   }
 });
 
+//users reading
+router.get("/", async (req, res) => {
+  try {
+    const users = await User.find();
+    res.status(200).send(users);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error: ", error});
+  }
+});
+
 //users login route
 router.post("/login", async (req, res) => {
   try {
