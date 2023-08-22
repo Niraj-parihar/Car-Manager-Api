@@ -37,4 +37,46 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+//dealership update
+router.patch("/update/:id", async (req, res) => {
+  // const updates = Object.keys(req.body);
+  // const allowedUpdates = [
+  //   "dealership_email",
+  //   "dealership_name",
+  //   "dealership_location",
+  //   "dealership_password",
+  //   "dealership_info",
+  //   // "cars",
+  //   // "deals",
+  //   // "sold_vehicles",
+  // ];
+
+  // const isValidOperation = updates.every((update) => {
+  //   allowedUpdates.includes(update);
+  // });
+
+  // if (!isValidOperation) {
+  //   return res.status(400).send({ error: "Invalid updates" });
+  // }
+
+  try {
+    const dealership = await Dealership.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    if (!dealership) {
+      return res.status(404).send("Dealership not Found");
+    }
+
+    res.send(dealership);
+  } catch (error) {
+    res.status(400).json({ message: "Something went wrong: ", error });
+  }
+});
+
 module.exports = router;
