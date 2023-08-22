@@ -66,5 +66,4 @@ const dealershipSchema = new mongoose.Schema(
 );
 
 const Dealership = mongoose.model("Dealership", dealershipSchema);
-
 module.exports = Dealership;
