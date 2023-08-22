@@ -14,6 +14,19 @@ router.post("/register", async (req, res) => {
   }
 });
 
+//dealership login
+router.post("/login", async (req, res) => {
+  try {
+    const dealership = await Dealership.findByCredentials(
+      req.body.dealership_email,
+      req.body.dealership_password
+    );
+    res.send(dealership);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
 //dealerships read
 router.get("/", async (req, res) => {
   try {
@@ -37,29 +50,8 @@ router.get("/:id", async (req, res) => {
     res.status(500).json({ message: "Internal server error: ", error });
   }
 });
-
 //dealership update
 router.patch("/update/:id", async (req, res) => {
-  // const updates = Object.keys(req.body);
-  // const allowedUpdates = [
-  //   "dealership_email",
-  //   "dealership_name",
-  //   "dealership_location",
-  //   "dealership_password",
-  //   "dealership_info",
-  //   // "cars",
-  //   // "deals",
-  //   // "sold_vehicles",
-  // ];
-
-  // const isValidOperation = updates.every((update) => {
-  //   allowedUpdates.includes(update);
-  // });
-
-  // if (!isValidOperation) {
-  //   return res.status(400).send({ error: "Invalid updates" });
-  // }
-
   try {
     const dealership = await Dealership.findByIdAndUpdate(
       req.params.id,
@@ -80,7 +72,7 @@ router.patch("/update/:id", async (req, res) => {
   }
 });
 
-//delaership delete
+//dealership delete
 router.delete("/delete/:id", async (req, res) => {
   try {
     const dealership = await Dealership.findByIdAndDelete(req.params.id);
@@ -92,5 +84,42 @@ router.delete("/delete/:id", async (req, res) => {
     res.status(500).send(error);
   }
 });
+
+// //dealership update
+// router.patch("/update/:id", async (req, res) => {
+//   const updates = Object.keys(req.body);
+//   const allowedUpdates = [
+//     "dealership_email",
+//     "dealership_name",
+//     "dealership_location",
+//     "dealership_password",
+//     "dealership_info",
+//     "cars",
+//     "deals",
+//     "sold_vehicles",
+//   ];
+
+//   const isValidOperation = updates.every((update) => {
+//     allowedUpdates.includes(update);
+//   });
+
+//   if (!isValidOperation) {
+//     return res.status(400).send({ error: "Invalid updates" });
+//   }
+
+//   try {
+//     const dealership = await Dealership.findById(req.params.id);
+//     updates.forEach((update) => (dealership[update] = req.body[update]));
+//     await dealership.save();
+
+//     if (!dealership) {
+//       return res.status(404).send("Dealership not Found");
+//     }
+
+//     res.send(dealership);
+//   } catch (error) {
+//     res.status(400).json({ message: "Something went wrong: ", error });
+//   }
+// });
 
 module.exports = router;
