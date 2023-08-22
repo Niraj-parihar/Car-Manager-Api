@@ -1,5 +1,6 @@
 const express = require("express");
 const Dealership = require("../models/dealership");
+const Deal = require("../models/deal");
 const router = new express.Router();
 
 //dealership register
@@ -76,6 +77,19 @@ router.patch("/update/:id", async (req, res) => {
     res.send(dealership);
   } catch (error) {
     res.status(400).json({ message: "Something went wrong: ", error });
+  }
+});
+
+//delaership delete
+router.delete("/delete/:id", async (req, res) => {
+  try {
+    const dealership = await Dealership.findByIdAndDelete(req.params.id);
+    if (!dealership) {
+      return res.status(404).send();
+    }
+    res.send(dealership);
+  } catch (error) {
+    res.status(500).send(error);
   }
 });
 
