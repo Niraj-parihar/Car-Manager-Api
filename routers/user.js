@@ -13,6 +13,19 @@ router.post("/register", async (req, res) => {
   }
 });
 
+//users login route
+router.post("/login", async (req, res) => {
+  try {
+    const user = await User.findByCredentials(
+      req.body.user_email,
+      req.body.user_password
+    );
+    res.send(user);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
 //users reading
 router.get("/", async (req, res) => {
   try {
@@ -37,16 +50,36 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-//users login route
-router.post("/login", async (req, res) => {
+//user update
+router.patch("/update/:id", async (req, res) => {
+  const updates = Object.keys(req.body);
+  const allowedUpdates = [
+    "user_name",
+    "user_email",
+    "user_password",
+    "user_location",
+    "user_info",
+    "vehicle_info",
+  ];
+  const isValidOperation = updates.every((update) =>
+    allowedUpdates.includes(update)
+  );
+  if (!isValidOperation) {
+    return res.status(400).send({ error: "Invalid updates" });
+  }
   try {
-    const user = await User.findByCredentials(
-      req.body.user_email,
-      req.body.user_password
-    );
+    const user = await User.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!user) {
+      return res.status(404).send("User not Found");
+    }
+
     res.send(user);
-  } catch (err) {
-    res.status(400).send(err);
+  } catch (error) {
+    res.status(400).json({ message: "Something went wrong: ", error });
   }
 });
 
