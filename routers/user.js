@@ -36,7 +36,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-//user reading
+// //user reading
 router.get("/:id", async (req, res) => {
   const _id = req.params.id;
   try {
@@ -49,6 +49,40 @@ router.get("/:id", async (req, res) => {
     res.status(500).json({ message: "Internal server error: ", error });
   }
 });
+
+// //user update
+// router.patch("/update/:id", async (req, res) => {
+//   const updates = Object.keys(req.body);
+//   const allowedUpdates = [
+//     "user_name",
+//     "user_email",
+//     "user_password",
+//     "user_location",
+//     "user_info",
+//     "vehicle_info",
+//   ];
+//   const isValidOperation = updates.every((update) =>
+//     allowedUpdates.includes(update)
+//   );
+
+//   if (!isValidOperation) {
+//     return res.status(400).send({ error: "Invalid updates" });
+//   }
+
+//   try {
+//     const user = await User.findById(req.params.id);
+//     updates.forEach((update) => (user[update] = req.body[update]));
+//     await user.save();
+
+//     if (!user) {
+//       return res.status(404).send("User not Found");
+//     }
+
+//     res.send(user);
+//   } catch (error) {
+//     res.status(400).json({ message: "Something went wrong: ", error });
+//   }
+// });
 
 //user update
 router.patch("/update/:id", async (req, res) => {
