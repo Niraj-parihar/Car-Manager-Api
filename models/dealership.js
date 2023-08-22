@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const bcrypt = require("bcrypt");
 const Car = require("./cars");
 const Deal = require("./deal");
 const SoldVehicle = require("./soldvehicles");
@@ -64,6 +65,42 @@ const dealershipSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+dealershipSchema.statics.findByCredentials = async (
+  dealership_email,
+  dealership_password
+) => {
+  const dealership = await Dealership.findOne({ dealership_email });
+
+  if (!dealership) {
+    throw new Error("Unable to login");
+  }
+
+  const isMatch = await bcrypt.compare(
+    dealership_password,
+    dealership.dealership_password
+  );
+
+  if (!isMatch) {
+    throw new Error("Unable to login");
+  }
+
+  return dealership;
+};
+
+// Hash the plain text password before saving
+dealershipSchema.pre("save", async function (next) {
+  const dealership = this;
+
+  if (dealership.isModified("dealership_password")) {
+    dealership.dealership_password = await bcrypt.hash(
+      dealership.dealership_password,
+      8
+    );
+  }
+
+  next();
+});
 
 const Dealership = mongoose.model("Dealership", dealershipSchema);
 module.exports = Dealership;
