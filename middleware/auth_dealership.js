@@ -12,6 +12,7 @@ const auth = async (req, res, next) => {
     if (!dealership) {
       throw new Error();
     }
+    req.token = token;
     req.dealership = dealership;
     next();
   } catch (error) {
