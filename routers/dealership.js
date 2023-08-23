@@ -30,6 +30,30 @@ router.post("/login", async (req, res) => {
   }
 });
 
+//dealership logout
+router.post("/logout", auth_dealership, async (req, res) => {
+  try {
+    req.dealership.tokens = req.dealership.tokens.filter((token) => {
+      return token.token !== req.token;
+    });
+    await req.dealership.save();
+    res.send();
+  } catch (e) {
+    res.status(500).send(e);
+  }
+});
+
+//dealership logoutAll
+router.post("/logoutAll", auth_dealership, async (req, res) => {
+  try {
+    req.dealership.tokens = [];
+    await req.dealership.save();
+    res.send();
+  } catch (error) {
+    req.status(500).send(error);
+  }
+});
+
 //dealership profile read
 router.get("/dealership_me", auth_dealership, async (req, res) => {
   res.send(req.dealership);
