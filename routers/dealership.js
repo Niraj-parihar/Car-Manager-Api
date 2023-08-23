@@ -1,4 +1,5 @@
 const express = require("express");
+const auth_dealership = require("../middleware/auth_dealership");
 const Dealership = require("../models/dealership");
 const Deal = require("../models/deal");
 const router = new express.Router();
@@ -8,7 +9,8 @@ router.post("/register", async (req, res) => {
   const dealership = new Dealership(req.body);
   try {
     await dealership.save();
-    res.status(201).send(dealership);
+    const token = await dealership.generateAuthToken();
+    res.status(201).send({ dealership, token });
   } catch (err) {
     res.status(500).send(err);
   }
@@ -21,10 +23,16 @@ router.post("/login", async (req, res) => {
       req.body.dealership_email,
       req.body.dealership_password
     );
-    res.send(dealership);
+    const token = await dealership.generateAuthToken();
+    res.send({ dealership, token });
   } catch (err) {
     res.status(400).send(err);
   }
+});
+
+//dealership profile read
+router.get("/dealership_me", auth_dealership, async (req, res) => {
+  res.send(req.dealership);
 });
 
 //dealerships read
@@ -50,6 +58,7 @@ router.get("/:id", async (req, res) => {
     res.status(500).json({ message: "Internal server error: ", error });
   }
 });
+
 //dealership update
 router.patch("/update/:id", async (req, res) => {
   try {
