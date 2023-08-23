@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const Car = require("./cars");
 const Deal = require("./deal");
@@ -60,12 +61,30 @@ const dealershipSchema = new mongoose.Schema(
         ref: "SoldVehicle",
       },
     ],
+    tokens: [
+      {
+        token: {
+          required: true,
+          type: String,
+        },
+      },
+    ],
   },
   {
     timestamps: true,
   }
 );
 
+//dealership instance methods
+dealershipSchema.methods.generateAuthToken = async function () {
+  const dealership = this;
+  const token = jwt.sign({ _id: dealership.id.toString() }, "thisiscarapi");
+  dealership.tokens = dealership.tokens.concat({ token });
+  await dealership.save();
+  return token;
+};
+
+//dealership login
 dealershipSchema.statics.findByCredentials = async (
   dealership_email,
   dealership_password

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const jwt = require("jsonwebtoken");
 const SoldVehicle = require("./soldvehicles");
 const bcrypt = require("bcrypt");
 
@@ -48,6 +49,14 @@ const userSchema = new mongoose.Schema(
         ref: "SoldVehicle",
       },
     ],
+    tokens: [
+      {
+        token: {
+          required: true,
+          type: String,
+        },
+      },
+    ],
   },
   {
     timestamps: true,
@@ -64,6 +73,16 @@ userSchema.methods.toJSON = function () {
   return userObject;
 };
 
+//methods are accessible on Users's Instances
+userSchema.methods.generateAuthToken = async function () {
+  const user = this;
+  const token = jwt.sign({ _id: user._id.toString() }, "thisiscarapi");
+  user.tokens = user.tokens.concat({ token });
+  await user.save();
+  return token;
+};
+
+//model methods
 userSchema.statics.findByCredentials = async (user_email, user_password) => {
   const user = await User.findOne({ user_email });
 
