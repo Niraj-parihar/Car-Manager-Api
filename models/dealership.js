@@ -79,7 +79,7 @@ dealershipSchema.methods.toJSON = function () {
   const dealership = this;
   const dealershipObject = dealership.toObject();
 
-  delete dealershipObject.user_password;
+  delete dealershipObject.dealership_password;
   delete dealershipObject.tokens;
 
   return dealershipObject;
