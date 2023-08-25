@@ -150,13 +150,14 @@ router.patch("/update/:id", async (req, res) => {
 });
 
 //user delete
-router.delete("/delete/:id", async (req, res) => {
+router.delete("/delete/delete_profile_me", auth_user, async (req, res) => {
   try {
-    const user = await User.findByIdAndDelete(req.params.id);
-    if (!user) {
-      return res.status(404).send();
-    }
-    res.send(user);
+    // const user = await User.findByIdAndDelete(req.user._id);
+    // if (!user) {
+    //   return res.status(404).send();
+    // }
+    await req.user.remove();
+    res.send(req.user);
   } catch (error) {
     res.status(500).send(error);
   }

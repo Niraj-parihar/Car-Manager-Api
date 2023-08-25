@@ -106,13 +106,14 @@ router.patch("/update/:id", async (req, res) => {
 });
 
 //dealership delete
-router.delete("/delete/:id", async (req, res) => {
+router.delete("/delete/delete_dealership_me", auth_dealership, async (req, res) => {
   try {
-    const dealership = await Dealership.findByIdAndDelete(req.params.id);
-    if (!dealership) {
-      return res.status(404).send();
-    }
-    res.send(dealership);
+    // const dealership = await Dealership.findByIdAndDelete(req.params.id);
+    // if (!dealership) {
+    //   return res.status(404).send();
+    // }
+    await req.dealership.remove();
+    res.send(req.dealership);
   } catch (error) {
     res.status(500).send(error);
   }
