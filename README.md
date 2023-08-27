@@ -42,7 +42,7 @@ The Car Manager API strives to fulfill the following requirements:
 
 ## API Documentation
 
-For detailed API documentation, refer to the [API Documentation](/docs/api-documentation.md) file.
+For detailed API documentation, refer to the [API Documentation](/docs/api-documentation.md) file.(Under Development)
 
 ## Authentication
 
@@ -63,7 +63,7 @@ Asynchronous error handling is consistently applied to all API endpoints. Detail
 
 ## Contributing
 
-Contributions are welcome! Please follow the guidelines outlined in the [Contributing Guidelines](/CONTRIBUTING.md) to contribute to the project.
+Contributions are welcome! Please follow the guidelines outlined in the [Contributing Guidelines](/CONTRIBUTING.md) to contribute to the project.(Under Development)
 
 ## License
 
