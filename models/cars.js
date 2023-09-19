@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const SoldVehicle = require("./soldvehicles");
 
 const carSchema = new mongoose.Schema({
   car_type: {

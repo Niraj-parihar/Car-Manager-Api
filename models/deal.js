@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const  Car=require('./cars');
 
 const dealSchema = new mongoose.Schema({
   deal_id: {

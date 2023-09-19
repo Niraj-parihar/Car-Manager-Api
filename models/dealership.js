@@ -2,9 +2,6 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const Car = require("./cars");
-const Deal = require("./deal");
-const SoldVehicle = require("./soldvehicles");
 
 const dealershipSchema = new mongoose.Schema(
   {
