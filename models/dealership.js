@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const Car=require('./cars');
 
 const dealershipSchema = new mongoose.Schema(
   {
@@ -38,12 +39,12 @@ const dealershipSchema = new mongoose.Schema(
     },
     dealership_info: {
       type: mongoose.Schema.Types.Mixed,
-      default: {},
     },
     cars: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Car",
+        // type: mongoose.Schema.Types.ObjectId,
+        type: ObjectId,
+        ref: 'Car',
       },
     ],
     deals: [
