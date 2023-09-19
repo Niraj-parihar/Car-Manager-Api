@@ -19,10 +19,9 @@ mongoose
 const app = express();
 app.use(express.json());
 app.use("/api/users", userRouter);
+app.use("/api/cars", carRouter);
 app.use("/api/dealerships", dealershipRouter);
 app.use("/api/admins", adminRouter);
-app.use("/api/cars", carRouter);
-
 
 app.listen(3000, () => {
   console.log("Server is up and running on post : ", 3000);
